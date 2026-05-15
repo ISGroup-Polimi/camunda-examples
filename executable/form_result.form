@@ -1,0 +1,62 @@
+{
+  "components": [
+    {
+      "text": "# Result",
+      "type": "text",
+      "layout": {
+        "row": "Row_0v8br9k",
+        "columns": null
+      },
+      "id": "Field_1su02gb"
+    },
+    {
+      "label": "value of 'a'",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_10yo0u4",
+        "columns": null
+      },
+      "id": "Field_0fbqzny",
+      "key": "a"
+    },
+    {
+      "label": "value of 'b'",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1g6yk3n",
+        "columns": null
+      },
+      "id": "Field_03by89f",
+      "key": "b"
+    },
+    {
+      "label": "Sum of 'a' and 'b' via script",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_18plwxz",
+        "columns": null
+      },
+      "id": "Field_0ogd210",
+      "key": "sum_script"
+    },
+    {
+      "label": "Sum of 'a' and 'b' via worker",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0bxwap9",
+        "columns": null
+      },
+      "id": "Field_14hwz71",
+      "key": "sum_worker"
+    }
+  ],
+  "type": "default",
+  "id": "add_numbers_results_form",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.8.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.40.0"
+  },
+  "schemaVersion": 19
+}
