@@ -159,3 +159,24 @@ It is important to check the name and the code of the error boundary event that 
 - open a terminal and run `node ./src/start/start_process_message.js adding-numbers-message-error`
 - open localhost:8080/tasklist and complete the task 
 - open localhost:8080/operate to see if the process has properly concluded and the `sum_script` and `sum_worker` have the correct values
+
+## Multi-instance activity
+
+The [multi instance example](./executable/add_numbers_multi.bpmn) shows how to manage loops. 
+
+![image](./img/add-numbers-multi.png)
+
+Consider that Camunda does not support "standard loop". It can be replaced by a explicit loop using gateways or using sequence multi-instance marker. Complete discussion about how Camunda support loops is available [here](https://docs.camunda.io/docs/components/modeler/bpmn/multi-instance/)
+
+The [printer-worker.js](./src/worker/printer-worker.js) contains the code to run the worker associated to the service task that has a multi-instance marker 
+
+#### Steps
+
+- on a terminal run the worker with `node ./src/worker/add-numbers-worker.js` (if it is not already running from the previous example)
+- on another terminal run the worker associated to the message catching `node ./src/worker/catch_message_worker_error.js` (if it is not already running from the previous example)
+- on another terminal run the printer worker with `node ./src/worker/printer-worker.js`
+- open [multi-instance model](./executable/add_numbers_multi.bpmn) in Camunda Modeler
+- deploy the model on Camunda Engine (click on the :rocket: icon)
+- open a terminal and run `node ./src/start/start_process_message.js adding-numbers-message-multi`
+- open localhost:8080/tasklist and complete the task 
+- open localhost:8080/operate to see if the process has properly concluded and check the log of the printer-worker to see how the jobs have been executed
