@@ -180,3 +180,45 @@ The [printer-worker.js](./src/worker/printer-worker.js) contains the code to run
 - open a terminal and run `node ./src/start/start_process_message.js adding-numbers-message-multi`
 - open localhost:8080/tasklist and complete the task 
 - open localhost:8080/operate to see if the process has properly concluded and check the log of the printer-worker to see how the jobs have been executed
+
+## Boundary event
+
+The [multi instance with boundary event example](./executable/add_numbers_multi-timer.bpmn) shows how to manage events that can interrupt a running activity. In particular, the timer event is used. 
+
+![image](./img/add-numbers-multi-timer.png)
+
+Refer to [this page](https://docs.camunda.io/docs/components/modeler/bpmn/timer-events/) for a discussion on how to set a time in Camunda.
+
+#### Steps
+
+- on a terminal run the worker with `node ./src/worker/add-numbers-worker.js` (if it is not already running from the previous example)
+- on another terminal run the worker associated to the message catching `node ./src/worker/catch_message_worker_error.js` (if it is not already running from the previous example)
+- on another terminal run the printer worker with `node ./src/worker/printer-worker.js` (if it is not already running from the previous example)
+- open [multi-instance model](./executable/add_numbers_multi.bpmn) in Camunda Modeler
+- deploy the model on Camunda Engine (click on the :rocket: icon)
+- open a terminal and run `node ./src/start/start_process_message.js adding-numbers-message-multi`
+- open localhost:8080/tasklist and complete the task 
+- open localhost:8080/operate to see if the process has properly concluded and check the log of the printer-worker to see how the jobs have been executed
+
+## Sub process
+
+The [sub process example] show how to use a subprocess that acts as a grouping mechanism. 
+
+![image](./img/add-numbers-multi-timer-sub.png)
+
+When dealing with subprocesses it is important to properly manage the variable scope that is different when the variable is declared inside a process (e.g., `sum_worker` and `sum_script`) or in the same process (e.g., `a`, `b`). In the example, all the process variables are mapped to variables (with same name) of the subprocess, while only two variables of the subprocess are mapped to the main process. For a discussion on variable mapping can be found [here](https://docs.camunda.io/docs/components/concepts/variables/#inputoutput-variable-mappings).
+
+#### Steps
+- same as the previous example
+
+
+## Call activity
+
+The [call activity example] show how to use a subprocess as a reusable component as it could be called by several processes through a `call activity`. 
+
+![image](./img/add-numbers-multi-timer-call.png)
+
+
+
+#### Steps
+- same as the previous example

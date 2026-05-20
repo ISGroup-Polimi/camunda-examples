@@ -76,7 +76,7 @@
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1y14h56</bpmn:incoming>
       <bpmn:outgoing>Flow_1505xae</bpmn:outgoing>
-      <bpmn:multiInstanceLoopCharacteristics>
+      <bpmn:multiInstanceLoopCharacteristics isSequential="true">
         <bpmn:extensionElements>
           <zeebe:loopCharacteristics inputCollection="=for i in 1..number(sum_worker) return i" />
         </bpmn:extensionElements>
@@ -111,11 +111,11 @@
         <dc:Bounds x="650" y="170" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1mrsfd4_di" bpmnElement="Event_1mrsfd4">
-        <dc:Bounds x="802" y="312" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1pg10xi_di" bpmnElement="Event_1pg10xi">
         <dc:Bounds x="1012" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1mrsfd4_di" bpmnElement="Event_1mrsfd4">
+        <dc:Bounds x="802" y="312" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0606cx1_di" bpmnElement="Activity_04uraba">
         <dc:Bounds x="810" y="170" width="100" height="80" />

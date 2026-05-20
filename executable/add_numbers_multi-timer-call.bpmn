@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0t0tlqs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.8.0">
+  <bpmn:process id="add-numbers-multi-timer-call" name="add-numbers-multi-timer-call" isExecutable="true">
+    <bpmn:startEvent id="Event_0os55dv">
+      <bpmn:outgoing>Flow_10xfran</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_14pi0u4" messageRef="Message_3a70975" />
+    </bpmn:startEvent>
+    <bpmn:sendTask id="Activity_0a7w1hm" name="send results">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="process_results" />
+        <zeebe:ioMapping>
+          <zeebe:input source="={&#34;sum_script&#34;: sum_script, &#34;sum_worker&#34;: sum_worker}" target="results" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1fwu2mk</bpmn:incoming>
+      <bpmn:outgoing>Flow_1y14h56</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:endEvent id="Event_1pg10xi">
+      <bpmn:incoming>Flow_1505xae</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1505xae" sourceRef="Activity_04uraba" targetRef="Event_1pg10xi" />
+    <bpmn:boundaryEvent id="Event_0kj44qh" attachedToRef="Activity_0a7w1hm">
+      <bpmn:outgoing>Flow_1s359hh</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_186b41m" errorRef="Error_0c6lubw" />
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="Event_1mrsfd4">
+      <bpmn:incoming>Flow_1s359hh</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1s359hh" sourceRef="Event_0kj44qh" targetRef="Event_1mrsfd4" />
+    <bpmn:sequenceFlow id="Flow_1y14h56" sourceRef="Activity_0a7w1hm" targetRef="Activity_04uraba" />
+    <bpmn:serviceTask id="Activity_04uraba" name="call printer">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="printer-worker" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1y14h56</bpmn:incoming>
+      <bpmn:outgoing>Flow_1505xae</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics>
+        <bpmn:extensionElements>
+          <zeebe:loopCharacteristics inputCollection="=for i in 1..number(sum_worker) return i" />
+        </bpmn:extensionElements>
+      </bpmn:multiInstanceLoopCharacteristics>
+    </bpmn:serviceTask>
+    <bpmn:boundaryEvent id="Event_0b1mzxm" attachedToRef="Activity_04uraba">
+      <bpmn:outgoing>Flow_0fsq871</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0schauu">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT5S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="Event_00soae1">
+      <bpmn:incoming>Flow_0fsq871</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0fsq871" sourceRef="Event_0b1mzxm" targetRef="Event_00soae1" />
+    <bpmn:callActivity id="Activity_1vlx4tb" name="add numbers">
+      <bpmn:extensionElements>
+        <zeebe:calledElement processId="add-numbers-user" propagateAllChildVariables="false" />
+        <zeebe:ioMapping>
+          <zeebe:output source="=sum_script" target="sum_script" />
+          <zeebe:output source="=sum_worker" target="sum_worker" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_10xfran</bpmn:incoming>
+      <bpmn:outgoing>Flow_1fwu2mk</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_10xfran" sourceRef="Event_0os55dv" targetRef="Activity_1vlx4tb" />
+    <bpmn:sequenceFlow id="Flow_1fwu2mk" sourceRef="Activity_1vlx4tb" targetRef="Activity_0a7w1hm" />
+  </bpmn:process>
+  <bpmn:message id="Message_3a70975" name="adding-numbers-message-multi-timer-call" />
+  <bpmn:error id="Error_0c6lubw" name="error-results-mismatch" errorCode="error-results-mismatch" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="add-numbers-multi-timer-call">
+      <bpmndi:BPMNShape id="Activity_12gjd4a_di" bpmnElement="Activity_0a7w1hm">
+        <dc:Bounds x="410" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1pg10xi_di" bpmnElement="Event_1pg10xi">
+        <dc:Bounds x="772" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1mrsfd4_di" bpmnElement="Event_1mrsfd4">
+        <dc:Bounds x="562" y="222" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0606cx1_di" bpmnElement="Activity_04uraba">
+        <dc:Bounds x="570" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00soae1_di" bpmnElement="Event_00soae1">
+        <dc:Bounds x="752" y="222" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0od5r3g_di" bpmnElement="Activity_1vlx4tb">
+        <dc:Bounds x="240" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0gm3n79_di" bpmnElement="Event_0os55dv">
+        <dc:Bounds x="152" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_16i6ntp_di" bpmnElement="Event_0b1mzxm">
+        <dc:Bounds x="652" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_14f3h1n_di" bpmnElement="Event_0kj44qh">
+        <dc:Bounds x="472" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1fwu2mk_di" bpmnElement="Flow_1fwu2mk">
+        <di:waypoint x="340" y="120" />
+        <di:waypoint x="410" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1y14h56_di" bpmnElement="Flow_1y14h56">
+        <di:waypoint x="510" y="120" />
+        <di:waypoint x="570" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1505xae_di" bpmnElement="Flow_1505xae">
+        <di:waypoint x="670" y="120" />
+        <di:waypoint x="772" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1s359hh_di" bpmnElement="Flow_1s359hh">
+        <di:waypoint x="490" y="178" />
+        <di:waypoint x="490" y="240" />
+        <di:waypoint x="562" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fsq871_di" bpmnElement="Flow_0fsq871">
+        <di:waypoint x="670" y="178" />
+        <di:waypoint x="670" y="240" />
+        <di:waypoint x="752" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10xfran_di" bpmnElement="Flow_10xfran">
+        <di:waypoint x="188" y="120" />
+        <di:waypoint x="240" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

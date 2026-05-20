@@ -30,7 +30,7 @@ void (async () => {
         messageId: messageId,
         name: messageId,
         timeToLive: 10,
-        variables: { a: 2, b: 100}
+        variables: { a: 2, b: 10}
     });
 
     console.log("process instance started")
